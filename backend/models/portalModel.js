@@ -8,7 +8,9 @@ const PortalSchema = new Schema({
     ModifiedBy: { type: String },
     ModifiedDate: { type: Date },
     PortalName: { type: String, required: true },
-    Status: { type: Number, required: true }
+    Status: { type: Number, required: true },
+    // projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }]
+
 })
 
 module.exports = mongoose.model("Portal",PortalSchema)
