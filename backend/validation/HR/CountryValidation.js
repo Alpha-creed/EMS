@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
- const CountryValidation = Joi.object().keys({
+ const CountryValidation = Joi.object({
     _id: Joi.optional(),
     CountryID: Joi.optional(),
     CountryName: Joi.string()

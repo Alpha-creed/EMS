@@ -34,7 +34,7 @@ const WorkExperienceValidation=require("../validation/WorkExpValidation")
 
 const Joi = require("joi")
 
-exports.addLoginUser = async(req,res)=>{
+exports.LoginUser = async(req,res)=>{
     Joi.validate(
         req.body,
         Joi.object().keys({

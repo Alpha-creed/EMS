@@ -1,6 +1,6 @@
 const Joi = require("joi")
 
-const DepartmentValidation = Joi.object().keys({
+const DepartmentValidation = Joi.object({
     DepartmentName: Joi.string()
       .max(200)
       .required(),

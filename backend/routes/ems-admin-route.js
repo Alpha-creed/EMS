@@ -6,14 +6,16 @@ const{addAdminPortal, getAdminPortal, updateAdminPortal, deleteAdminPortal}= req
 const{ addAdminProjectBid, getAdminProjectBid, updateAdminProjectBid,deleteAdminProjectBid}= require('../controllers/ems-admin')
 
 //route for admin portal
-router.post("/api/admin/add-portal",addAdminPortal)
-      .get("/api/admin/get-portal",getAdminPortal)
-      .put("/api/admin/update-portal/:id",updateAdminPortal)
-      .delete("/api/admin/delete-portal/:id",deleteAdminPortal)
+router.post("/admin/add-portal",addAdminPortal)
+      .get("/admin/get-portal",getAdminPortal)
+      .put("/admin/update-portal/:id",updateAdminPortal)
+      .delete("/admin/delete-portal/:id",deleteAdminPortal)
 
 
 //route for admin project bid
-router.post("/api/admin/add-project-bid",addAdminProjectBid)
-      .get("/api/admin/get-project-bid",getAdminProjectBid)
-      .put("/api/admin/update-project-bid/:id",updateAdminProjectBid)
-      .delete("/api/admin/delete-project-bid/:id",deleteAdminProjectBid)
+router.post("/admin/add-project-bid",addAdminProjectBid)
+      .get("/admin/get-project-bid",getAdminProjectBid)
+      .put("/admin/update-project-bid/:id",updateAdminProjectBid)
+      .delete("/admin/delete-project-bid/:id",deleteAdminProjectBid)
+
+module.exports = router 

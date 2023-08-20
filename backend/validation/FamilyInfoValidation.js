@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const FamilyInfoValidation=Joi.object.keys({
+const FamilyInfoValidation=Joi.object().keys({
     Name: Joi.string()
     .max(200)
     .required(),

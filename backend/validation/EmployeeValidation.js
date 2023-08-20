@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
- const EmployeeValidation = Joi.object().keys({
+ const EmployeeValidation = Joi.object({
     RoleID:Joi.optional(),
     PositionID: Joi.optional(),
   DepartmentID: Joi.optional(),
@@ -36,7 +36,7 @@ const Joi = require('joi');
       .required()
 });
 
-const EmployeeValidationUpdate=Joi.object.keys({
+const EmployeeValidationUpdate=Joi.object().keys({
     RoleID: Joi.optional(),
     PositionID: Joi.optional(),
     DepartmentID: Joi.optional(),

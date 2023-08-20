@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
- const EducationValidation = Joi.object().keys({
+ const EducationValidation = Joi.object({
     SchoolUniversity: Joi.string()
     .max(200)
     .required(),

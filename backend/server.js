@@ -4,9 +4,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const {db} = require("./db")
 const app = express();
+var jwt = require('jsonwebtoken');
+const {readdirSync} = require('fs')
 
 require("dotenv").config()
 const PORT = process.env.PORT
+
 
 //middlewares
 app.use(cors(corsOptions))
@@ -17,6 +20,9 @@ var corsOptions={
     origin:"http://localhost:3000"
 }
 
+readdirSync('./routes').map((route)=> app.use('/api', require('./routes/'+route)))
+
+ 
 const server = ()=>{
     db()
     app.listen(PORT,()=>{

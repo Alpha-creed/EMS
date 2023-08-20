@@ -1,6 +1,6 @@
 const Joi = require("joi")
 
-const CompanyValidation = Joi.object().keys({
+const CompanyValidation = Joi.object({
     _id: Joi.optional(),
     CityID: Joi.optional(),
     CompanyName: Joi.string()
