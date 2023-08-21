@@ -2,7 +2,8 @@ import './App.css';
 import react, { useEffect,useState} from 'react';
 import  {Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import history from './history';
+import history from "./history"
+import jwt from "jsonwebtoken";
 
 function App() {
 
@@ -184,8 +185,8 @@ const handleSubmit=(e)=>{
     pass: true,
     loading:true,
   }));
-  login(event.target[0].value, event.target[1].value);
-  event.target.reset();
+  login(e.target[0].value, e.target[1].value);
+  e.target.reset();
 }
 
 const handleLogout = (e) => {
@@ -195,7 +196,7 @@ const handleLogout = (e) => {
 };
 
   return (
-    <Router>
+    <Router history={history}>
       <Routes>
       <Route path="/login" element={
       val.data["Account"] === "1"?(
