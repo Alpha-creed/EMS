@@ -27,4 +27,4 @@ function verifyEmployee(req, res, next) {
     }
   }
 
-  export default verifyEmployee
+  module.exports= verifyEmployee

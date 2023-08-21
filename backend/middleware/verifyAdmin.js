@@ -26,4 +26,4 @@ function verifyAdmin(req, res, next) {
 
 
 
-export default verifyAdmin
+module.exports=verifyAdmin

@@ -6,25 +6,27 @@ const { getEmpWorkExp, addEmpWorkExp, deleteEmpWorkExp, updateEmpWorkExp }  =req
 const { getEmpFamilyInfo, addEmpFamilyInfo, updateEmpFamilyInfo, deleteEmpFamilyInfo }  =require("../controllers/ems-emp-dashboard")
 const { getEmpEducation, addEmpEducation, updateEmpEducation, deleteEmpEducation }  =require("../controllers/ems-emp-dashboard")
 const { getEmpPersonalInfo, updateEmpPersonalInfo }  =require("../controllers/ems-emp-dashboard")
+const verifyEmployee = require("../middleware/verifyEmp")
+const { verifyHREmployee } = require("../middleware/verifyHr")
 
 
-router.get("/get-personal-info/:id",getEmpPersonalInfo)
-      .put("/update-personal-info/:id",updateEmpPersonalInfo)
+router.get("/get-personal-info/:id",verifyHREmployee,getEmpPersonalInfo)
+      .put("/update-personal-info/:id",verifyEmployee,updateEmpPersonalInfo)
 
 
-router.get("/get-education/:id",getEmpEducation)
-      .post("/add-education/:id",addEmpEducation)
-      .put("/update-education/:id",updateEmpEducation)
-      .delete("/delete-education/:id/:id2",deleteEmpEducation)
+router.get("/get-education/:id",verifyEmployee,getEmpEducation)
+      .post("/add-education/:id",verifyEmployee,addEmpEducation)
+      .put("/update-education/:id",verifyEmployee,updateEmpEducation)
+      .delete("/delete-education/:id/:id2",verifyEmployee,deleteEmpEducation)
 
-router.get("/get-family-info/:id",getEmpFamilyInfo)
-      .post("/add-family-info/:id",addEmpFamilyInfo)
-      .put("/update-family-info/:id",updateEmpFamilyInfo)
-      .delete("/delete-family-info/:id/:id2",deleteEmpFamilyInfo)
+router.get("/get-family-info/:id",verifyHREmployee,getEmpFamilyInfo)
+      .post("/add-family-info/:id",verifyEmployee,addEmpFamilyInfo)
+      .put("/update-family-info/:id",verifyEmployee,updateEmpFamilyInfo)
+      .delete("/delete-family-info/:id/:id2",verifyEmployee,deleteEmpFamilyInfo)
 
-router.get("/get-work-experience/:id",getEmpWorkExp)
-      .post("/add-work-experience/:id",addEmpWorkExp)
-      .put("/update-work-experience/:id",updateEmpWorkExp)
-      .delete("/delete-work-experience/:id/:id2",deleteEmpWorkExp)
+router.get("/get-work-experience/:id",verifyEmployee,getEmpWorkExp)
+      .post("/add-work-experience/:id",verifyEmployee,addEmpWorkExp)
+      .put("/update-work-experience/:id",verifyEmployee,updateEmpWorkExp)
+      .delete("/delete-work-experience/:id/:id2",verifyEmployee,deleteEmpWorkExp)
 
 module.exports = router 

@@ -10,6 +10,13 @@ const {readdirSync} = require('fs')
 require("dotenv").config()
 const PORT = process.env.PORT
 
+//seting up jwt token
+if (!process.env.JWTKEY) {
+    var jwtKey = require("./jwtKey.js.js.js").jwtKey;
+  
+  } else {
+    jwtKey = process.env.JWTKEY;
+  }
 
 //middlewares
 app.use(cors(corsOptions))
