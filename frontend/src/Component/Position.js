@@ -1,32 +1,32 @@
-import axios from 'axios';
 import React, { useState } from 'react'
-import DepartmentForm from './DepartmentForm'
-import DepartmentFormEdit from './DepartmentFormEdit'
-import DepartmentTable from "./DepartmentTable"
+import axios from "axios";
+import PositionTable from "./PositionTable";
+import PositionForm from "./PositionForm";
+import PositionFormEdit from "./PositionFormEdit";
 
-
-const Department = () => {
+const Position = () => {
     const [values,setValues] = useState({
         table: true,
         editForm: false,
         editData: {}
     })
-   const handleDepartmentSubmit = event => {
+
+   const handlePositionSubmit = event => {
         event.preventDefault();
         console.log("id", event.target[0].value, event.target[1].value);
         setValues((prevState)=>({
             ...prevState,
             table: true
         }))
-    
+
         let body = {
           CompanyID: event.target[0].value,
-          DepartmentName: event.target[1].value
+          PositionName: event.target[1].value
         };
-        //  let body= "CompanyID=" + event.target[0].value + "&Department=" + event.target[1].value;
+        //  let body= "CompanyID=" + event.target[0].value + "&Position=" + event.target[1].value;
         //  let body= "debru";
         axios
-          .post("http://localhost:5000/api/add-department", body, {
+          .post("http://localhost:5000/api/add-position", body, {
             headers: {
               authorization: localStorage.getItem("token") || ""
             }
@@ -34,10 +34,9 @@ const Department = () => {
           .then(res => {
             setValues((prevState)=>({
                 ...prevState,
-                table: false, 
-                table: true,
+                table: false,
+                table: true
             }))
-   
           })
           .catch(err => {
             console.log(err);
@@ -46,50 +45,49 @@ const Department = () => {
         // this.login(event.target[0].value, event.target[1].value);
         // event.target.reset();
       };
-     const  handleAddDepartment = () => {
+      const handleAddPosition = () => {
         console.log("clicked1");
         setValues((prevState)=>({
             ...prevState,
-            table: false, 
+            table: false,
         }))
       };
-     const handleEditDepartment = e => {
+
+     const handleEditPosition = e => {
         console.log(e);
         console.log("clicked6");
         setValues((prevState)=>({
             ...prevState,
-            editForm: true, 
-            editData: e,
+            editForm: true,
+            editData: e
         }))
-      };
-      const handleFormClose = () => {
+      }; 
+     const handleFormClose = () => {
         console.log("clicked1");
         setValues((prevState)=>({
             ...prevState,
             table: true
         }))
       };
-      const handleEditFormClose = () => {
+    const handleEditFormClose = () => {
         console.log("clicked5");
         setValues((prevState)=>({
             ...prevState,
-            editForm: false
+            editForm: false 
         }))
       };
-    
-      const handleDepartmentEditUpdate = (info, newInfo) => {
-        newInfo.preventDefault();
+     
+      const handlePositionEditUpdate = (info, formData1, formData2) => {
         // this.setState({ table: true });
         let body = {
-          // ...info,CompanyID:formData1,Department:formData2
     
-          CompanyID: newInfo.target[0].value,
-          DepartmentName: newInfo.target[1].value,
+          CompanyID: formData1,
+          PositionName: formData2,
         };
         console.log("update", body);
         axios
           .put(
-            "http://localhost:5000/api/update-department/" + info["_id"],
+            "http://localhost:5000/api/update-position/" + info["_id"],
             body, {
             headers: {
               authorization: localStorage.getItem("token") || ""
@@ -101,46 +99,49 @@ const Department = () => {
             setValues((prevState)=>({
                 ...prevState,
                 table: false,
-                table: true 
+                table: true
             }))
           })
           .catch(err => {
             console.log(err);
           });
+    
           setValues((prevState)=>({
             ...prevState,
-            editForm: false
+            editForm: false 
         }))
       };
+    
   return (
     <>
-      {values.table ? (
+       {values.table ? (
           values.editForm ? (
-            <DepartmentFormEdit
-              onDepartmentEditUpdate={handleDepartmentEditUpdate}
+            <PositionFormEdit
+              onPositionEditUpdate={handlePositionEditUpdate}
               onFormEditClose={handleEditFormClose}
               editData={values.editData}
             />
           ) : (
-              <DepartmentTable
-                onAddDepartment={handleAddDepartment}
-                onEditDepartment={handleEditDepartment}
+              <PositionTable
+                onAddPosition={handleAddPosition}
+                onEditPosition={handleEditPosition}
               />
             )
         ) : (
-            <DepartmentForm
-              onDepartmentSubmit={handleDepartmentSubmit}
-              onFormClose={handleFormClose}
+            <PositionForm
+              onPositionSubmit={this.handlePositionSubmit}
+              onFormClose={this.handleFormClose}
             />
           )}
 
         {/* <div>debru</div> */}
-        {/* <Route path="/admin/Department/table" exact component={DepartmentTable} /> */}
-        {/* <Route path="/admin/Department/form" exact component={() => <DepartmentForm onDepartmentSubmit={this.handleDepartmentSubmit} />} /> */}
+        {/* <Route path="/admin/Position/table" exact component={PositionTable} /> */}
+        {/* <Route path="/admin/Position/form" exact component={() => <PositionForm onPositionSubmit={this.handlePositionSubmit} />} /> */}
 
-        {/* <DepartmentTable/> */}
+        {/* <PositionTable/> */}
+      
     </>
   )
 }
 
-export default Department
+export default Position

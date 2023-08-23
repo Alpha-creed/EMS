@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-const DepartmentFormEdit = (props) => {
-    const {editData,onDepartmentEditUpdate,onFormEditClose} = props
-    const [DepartmentData,setDepartmentData] = useState(editData["DepartmentName"])
-    const [companyInfo,setCompanyInfo] = useState([])
+const PositionFormEdit = (props) => {
+    const {editData,onPositionEditUpdate,onFormEditClose} = props
+    const [PositionData,setPositionData] = useState(editData["PositionName"])
+    const [companyInfo,setCompnayInfo]=useState([])
 
-    const onChange=(e)=>{
-        setDepartmentData(e.target.value)
-    }
-    let companyData = [];
-   const loadCompanyInfo = () => {
+   const onChange=(e)=> {
+        setPositionData(e.target.value)
+      }
+      let companyData = [];
+     const loadCompanyInfo = () => {
         axios
           .get("http://localhost:5000/api/get-company", {
             headers: {
@@ -24,26 +24,30 @@ const DepartmentFormEdit = (props) => {
             companyData = response.data;
     
             // this.portalsData=this.portalsData.filter((data)=>data["Status"]==1);
-            setCompanyInfo(response.data)
+            setCompnayInfo(response.data)
           })
           .catch(error => {
             console.log(error);
           });
       };
-   
+
       useEffect(()=>{
         loadCompanyInfo()
       })
     
   return (
     <div>
-        <h2 id="role-form-title">Edit Department Details</h2>
+        <h2 id="role-form-title">Edit Position Details</h2>
 
 <div id="role-form-outer-div">
   <Form
     id="form"
     onSubmit={e =>
-      onDepartmentEditUpdate(editData, e)
+      onPositionEditUpdate(
+        editData,
+        e.target[0].value,
+        e.target[1].value
+      )
     }
   >
     <Form.Group as={Row}>
@@ -71,15 +75,15 @@ const DepartmentFormEdit = (props) => {
 
     <Form.Group as={Row}>
       <Form.Label column sm={2}>
-        Department
+        Position
       </Form.Label>
       <Col sm={10} className="form-input">
         <Form.Control
           type="Text"
-          placeholder="Department"
-          name="DepartmentName"
+          placeholder="Position"
+          name="PositionName"
           required
-          value={DepartmentData}
+          value={values.PositionData}
           onChange={value => onChange(value)}
         />
       </Col>
@@ -103,4 +107,4 @@ const DepartmentFormEdit = (props) => {
   )
 }
 
-export default DepartmentFormEdit
+export default PositionFormEdit

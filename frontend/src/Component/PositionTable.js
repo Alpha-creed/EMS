@@ -11,6 +11,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -18,10 +19,10 @@ const override = css`
   border-color: red;
 `;
 
-const DepartmentTable = (props) => {
-    const {onEditDepartment,onAddDepartment} = props
+const PositionTable = (props) => {
+    const{onEditPosition,onAddPosition} = props
     const [values,setValues] = useState({
-        departmentData: [],
+        positionData: [],
         loading: true,
     
         columnDefs: [
@@ -35,8 +36,8 @@ const DepartmentTable = (props) => {
           },
     
           {
-            headerName: "Department",
-            field: "DepartmentName",
+            headerName: "Position",
+            field: "PositionName",
             sortable: true,
             // width: 150,
             // filter: true ,
@@ -49,14 +50,14 @@ const DepartmentTable = (props) => {
             field: "edit",
             filter: false,
             width: 30,
-            cellRendererFramework:renderEditButton
+            cellRendererFramework: renderEditButton
           },
           {
             headerName: "",
             field: "delete",
             filter: false,
             width: 30,
-            cellRendererFramework:renderButton
+            cellRendererFramework: renderButton
           }
         ],
         rowData: [],
@@ -72,35 +73,35 @@ const DepartmentTable = (props) => {
     
     })
 
-    let departmentObj = [];
+   let positionObj = [];
     let rowDataT = [];
   
-   const loadDepartmentData = () => {
+   const loadPositionData = () => {
       axios
-        .get("http://localhost:5000/api/get-department", {
+        .get("http://localhost:5000/api/get-position", {
           headers: {
             authorization: localStorage.getItem("token") || ""
           }
         })
         .then(response => {
-          departmentObj = response.data;
+          positionObj = response.data;
           console.log("response", response.data);
           setValues((prevState)=>({
             ...prevState,
-            departmentData: response.data,
-            loading: false 
+            positionData: response.data,
+            loading: false,
           }))
           rowDataT = [];
   
-          departmentObj.map(data => {
+          positionObj.map(data => {
             let temp = {
               data,
               CompanyName: data["company"][0]["CompanyName"],
-              DepartmentName: data["DepartmentName"],
+              PositionName: data["PositionName"],
   
             };
   
-            rowDataT.push(temp);
+          rowDataT.push(temp);
           });
           setValues((prevState)=>({
             ...prevState,
@@ -112,18 +113,18 @@ const DepartmentTable = (props) => {
         });
     };
   
-    const onDepartmentDelete = e => {
+    const onPositionDelete = e => {
       console.log(e);
       if (window.confirm("Are you sure to delete this record ? ") == true) {
         axios
-          .delete("http://localhost:5000/api/delete-department/" + e, {
+          .delete("http://localhost:5000/api/delete-position/" + e, {
             headers: {
               authorization: localStorage.getItem("token") || ""
             }
           })
           .then(res => {
-            loadDepartmentData()
-        })
+            loadPositionData();
+          })
           .catch(err => {
             console.log(err);
             console.log(err.response);
@@ -134,17 +135,16 @@ const DepartmentTable = (props) => {
           });
       }
     };
-   
-  useEffect(()=>{
-    loadDepartmentData()
-  })
-    const renderButton=(params)=> {
+    useEffect(()=>{
+        loadPositionData()
+    })
+   const renderButton=(params)=> {
       console.log(params);
       return (
         <FontAwesomeIcon
           icon={faTrash}
           onClick={() =>
-            onDepartmentDelete(params.data.data["_id"])
+            onPositionDelete(params.data.data["_id"])
           }
         />
       );
@@ -154,24 +154,24 @@ const DepartmentTable = (props) => {
       return (
         <FontAwesomeIcon
           icon={faEdit}
-          onClick={() => onEditDepartment(params.data.data)}
+          onClick={() => onEditPosition(params.data.data)}
         />
       );
     }
   
   return (
     <div>
-      <div id="table-outer-div-scroll">
-        <h2 id="role-title">Department Details</h2>
+       <div id="table-outer-div-scroll">
+        <h2 id="role-title">Position Details</h2>
+
         <Button
           variant="primary"
           id="add-button"
-          onClick={onAddDepartment}
+          onClick={onAddPosition}
         >
           <FontAwesomeIcon icon={faPlus} id="plus-icon" />
           Add
         </Button>
-
         <div id="clear-both" />
         {!values.loading ? (
           <div
@@ -207,33 +207,33 @@ const DepartmentTable = (props) => {
               />
             </div>
           )}
-
         {/* <div id="inner-table-div">
           <table id="role-table">
             <thead>
-              <tr>
+            <tr>
                 <th width="30%">Company</th>
-                <th width="30%">Department</th>
+                <th width="30%">Position</th>
                 <th width="20%" />
                 <th width="20%" />
               </tr>
             </thead>
+
             {!this.state.loading ? (
               <tbody>
-                {this.departmentObj.map((data, index) => (
+                {this.positionObj.map((data, index) => (
                   <tr key={index}>
                     <td>{data["company"][0]["CompanyName"]}</td>
-                    <td>{data["DepartmentName"]}</td>
+                    <td>{data["PositionName"]}</td>
                     <td>
                       <FontAwesomeIcon
                         icon={faEdit}
-                        onClick={() => this.props.onEditDepartment(data)}
+                        onClick={() => this.props.onEditPosition(data)}
                       />
                     </td>
                     <td>
                       <FontAwesomeIcon
                         icon={faTrash}
-                        onClick={() => this.onDepartmentDelete(data["_id"])}
+                        onClick={() => this.onPositionDelete(data["_id"])}
                       />
                     </td>
                   </tr>
@@ -267,4 +267,4 @@ const DepartmentTable = (props) => {
   )
 }
 
-export default DepartmentTable
+export default PositionTable

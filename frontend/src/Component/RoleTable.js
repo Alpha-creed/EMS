@@ -6,10 +6,10 @@ import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import { Button } from "react-bootstrap";
 
-
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
+
 
 const override = css`
   display: block;
@@ -18,45 +18,45 @@ const override = css`
   border-color: red;
 `;
 
-const DepartmentTable = (props) => {
-    const {onEditDepartment,onAddDepartment} = props
-    const [values,setValues] = useState({
-        departmentData: [],
+const RoleTable = (props) => {
+    const {onEditRole,onAddRole}=props
+    const [values,setValues]=useState({
+        roleData: [],
         loading: true,
     
         columnDefs: [
-    
+       
           {
-            headerName: "Company",
+            headerName: "Company Name",
             field: "CompanyName",
             sortable: true,
             // width: 150,
             // filter: true ,
           },
-    
+       
           {
-            headerName: "Department",
-            field: "DepartmentName",
+            headerName: "Role",
+            field: "RoleName",
             sortable: true,
             // width: 150,
             // filter: true ,
           },
-    
-    
+          
+          
     
           {
             headerName: "",
             field: "edit",
             filter: false,
             width: 30,
-            cellRendererFramework:renderEditButton
+            cellRendererFramework: renderEditButton
           },
           {
             headerName: "",
             field: "delete",
             filter: false,
             width: 30,
-            cellRendererFramework:renderButton
+            cellRendererFramework: renderButton
           }
         ],
         rowData: [],
@@ -66,41 +66,42 @@ const DepartmentTable = (props) => {
           filter: "agTextColumnFilter"
           // filter: true ,
         },
-        getRowHeight: function (params) {
+        getRowHeight: function(params) {
           return 35;
         }
     
     })
 
-    let departmentObj = [];
-    let rowDataT = [];
+   let roleObj = [];
+   let rowDataT = [];
   
-   const loadDepartmentData = () => {
+   const loadRoleData = () => {
       axios
-        .get("http://localhost:5000/api/get-department", {
+        .get("http://localhost:5000/api/get-role", {
           headers: {
             authorization: localStorage.getItem("token") || ""
           }
         })
         .then(response => {
-          departmentObj = response.data;
+          roleObj = response.data;
+  
           console.log("response", response.data);
           setValues((prevState)=>({
             ...prevState,
-            departmentData: response.data,
-            loading: false 
+            roleData: response.data,
+            loading: false,
           }))
           rowDataT = [];
   
-          departmentObj.map(data => {
+          roleObj.map(data => {
             let temp = {
               data,
               CompanyName: data["company"][0]["CompanyName"],
-              DepartmentName: data["DepartmentName"],
-  
+              RoleName:data["RoleName"]
+              
             };
   
-            rowDataT.push(temp);
+          rowDataT.push(temp);
           });
           setValues((prevState)=>({
             ...prevState,
@@ -112,39 +113,38 @@ const DepartmentTable = (props) => {
         });
     };
   
-    const onDepartmentDelete = e => {
+    const onRoleDelete = e => {
       console.log(e);
       if (window.confirm("Are you sure to delete this record ? ") == true) {
         axios
-          .delete("http://localhost:5000/api/delete-department/" + e, {
+          .delete("http://localhost:5000/api/delete-role/" + e, {
             headers: {
               authorization: localStorage.getItem("token") || ""
             }
           })
           .then(res => {
-            loadDepartmentData()
-        })
+            loadRoleData()
+          })
           .catch(err => {
             console.log(err);
             console.log(err.response);
-            if (err.response.status == 403) {
-              window.alert(err.response.data);
-            }
-  
+            if(err.response.status==403){
+              window.alert(err.response.data) ;}
+         
           });
       }
     };
-   
   useEffect(()=>{
-    loadDepartmentData()
+    loadRoleData()
   })
-    const renderButton=(params)=> {
+    
+   const renderButton=(params)=> {
       console.log(params);
       return (
         <FontAwesomeIcon
           icon={faTrash}
           onClick={() =>
-            onDepartmentDelete(params.data.data["_id"])
+            onRoleDelete(params.data.data["_id"])
           }
         />
       );
@@ -154,35 +154,35 @@ const DepartmentTable = (props) => {
       return (
         <FontAwesomeIcon
           icon={faEdit}
-          onClick={() => onEditDepartment(params.data.data)}
+          onClick={() => onEditRole(params.data.data)}
         />
       );
     }
   
   return (
     <div>
-      <div id="table-outer-div-scroll">
-        <h2 id="role-title">Department Details</h2>
+       <div id="table-outer-div-scroll">
+        <h2 id="role-title">Role Details</h2>
+
         <Button
           variant="primary"
           id="add-button"
-          onClick={onAddDepartment}
+          onClick={onAddRole}
         >
           <FontAwesomeIcon icon={faPlus} id="plus-icon" />
           Add
         </Button>
-
         <div id="clear-both" />
         {!values.loading ? (
           <div
             id="table-div"
             className="ag-theme-balham"
-          //   style={
-          //     {
-          //     height: "500px",
-          //     width: "100%"
-          //   }
-          // }
+            //   style={
+            //     {
+            //     height: "500px",
+            //     width: "100%"
+            //   }
+            // }
           >
             <AgGridReact
               columnDefs={values.columnDefs}
@@ -197,48 +197,51 @@ const DepartmentTable = (props) => {
             />
           </div>
         ) : (
-            <div id="loading-bar">
-              <RingLoader
-                css={override}
-                sizeUnit={"px"}
-                size={50}
-                color={"#0000ff"}
-                loading={true}
-              />
-            </div>
-          )}
+          <div id="loading-bar">
+            <RingLoader
+              css={override}
+              sizeUnit={"px"}
+              size={50}
+              color={"#0000ff"}
+              loading={true}
+            />
+          </div>
+        )}
 
         {/* <div id="inner-table-div">
           <table id="role-table">
             <thead>
               <tr>
                 <th width="30%">Company</th>
-                <th width="30%">Department</th>
+                <th width="30%">Role</th>
                 <th width="20%" />
                 <th width="20%" />
               </tr>
             </thead>
+
             {!this.state.loading ? (
-              <tbody>
-                {this.departmentObj.map((data, index) => (
-                  <tr key={index}>
-                    <td>{data["company"][0]["CompanyName"]}</td>
-                    <td>{data["DepartmentName"]}</td>
-                    <td>
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        onClick={() => this.props.onEditDepartment(data)}
-                      />
-                    </td>
-                    <td>
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        onClick={() => this.onDepartmentDelete(data["_id"])}
-                      />
-                    </td>
-                  </tr>
+              <React.Fragment>
+                {this.roleObj.map((data, index) => (
+                  <tbody key={index}>
+                    <tr>
+                      <td>{data["company"][0]["CompanyName"]}</td>
+                      <td>{data["RoleName"]}</td>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={faEdit}
+                          onClick={() => this.props.onEditRole(data)}
+                        />
+                      </td>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          onClick={() => this.onRoleDelete(data["_id"])}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
                 ))}
-              </tbody>
+              </React.Fragment>
             ) : (
               <tbody>
                 <tr>
@@ -267,4 +270,4 @@ const DepartmentTable = (props) => {
   )
 }
 
-export default DepartmentTable
+export default RoleTable
