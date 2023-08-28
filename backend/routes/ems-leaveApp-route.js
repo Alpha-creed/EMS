@@ -16,4 +16,4 @@ router.get("/get-leave-application-hr",verifyHR,getHrLeaveApplication)
       .put("/update-leave-application-hr/:id",verifyHR,updateHrLeaveApplication)
       .delete("/delete-leave-application-hr/:id/:id2",verifyHR,deleteHrLeaveApplication)
 
-module.exports = router       
+module.exports = router        

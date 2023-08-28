@@ -8,7 +8,7 @@ import SalaryFormEdit from "./SalaryFormEdit";
 const Salary = () => {
     const [table,setTable] = useState(true)
     const [editForm,setEditForm] = useState(false)
-    const [editData,setEitData] = useState({})
+    const [editData,setEditData] = useState({})
     handleSalarySubmit = event => {
         event.preventDefault();
         if(!(event.target[3].value==event.target[4].value)){
@@ -65,15 +65,14 @@ const Salary = () => {
             });
         }
   };
-  handleAddSalary = () => {
+ const handleAddSalary = () => {
     console.log("clicked1");
-    this.setState({ table: false });
+    setTable(false)
   };
-  handleEditSalary = e => {
+  const handleEditSalary = e => {
     console.log(e);
     console.log("clicked6");
-    this.setState({ editForm: true });
-    this.setState({ editData: e });
+    setEditForm(true)
     setEditData(e)
   };
  const handleFormClose = () => {
@@ -157,7 +156,7 @@ else{
               onEditSalary={handleEditSalary}              
             />
           )
-        ) : (
+       ) : (
           <SalaryForm
             onSalarySubmit={handleSalarySubmit}
             onFormClose={handleFormClose}
