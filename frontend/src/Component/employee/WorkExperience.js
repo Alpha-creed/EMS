@@ -1,96 +1,96 @@
 import React, { useState } from 'react'
-import axios from "axios";
-import FamilyInfoTable from "./FamilyInfoTable";
-import FamilyInfoForm from "./FamilyInfoForm";
-import FamilyInfoFormEdit from "./FamilyInfoFormEdit";
+import WorkExperienceFormEdit from './WorkExperienceFormEdit';
+import WorkExperienceForm from './WorkExperienceForm';
+import WorkExperienceTable from './WorkExperienceTable';
 
-const FamilyInfo = ({data,back}) => {
+const WorkExperience = ({data,back}) => {
     const [values,setValues] = useState({
         table: true,
         editForm: false,
         editData: {},
     })
-
-   const handleFamilyInfoSubmit = event => {
+   const handleWorkExperienceSubmit = event => {
         event.preventDefault();
         console.log("id", event.target[0].value, event.target[1].value);
         setValues((prevState)=>({
             ...prevState,
-            table: true
+            table: true 
         }))
     
         let body = {
-          Name: event.target[0].value,
-          Relationship: event.target[1].value,
-          DOB: event.target[2].value,
-          Occupation: event.target[3].value,
+    
+          CompanyName: event.target[0].value,
+          Designation: event.target[1].value,
+          FromDate: event.target[2].value,
+          ToDate: event.target[3].value,
         };
         axios
-          .post("http://localhost:5000/api/add-family-info/" + this.props.data["_id"], body, {
+          .post("http://localhost:5000/api/add-work-experience/" + this.props.data["_id"], body, {
             headers: {
               authorization: localStorage.getItem("token") || ""
             }
           })
           .then(res => {
-             setValues((prevState)=>({
-            ...prevState,
-            table: false,
-            table: true
-        }))
+            setValues((prevState)=>({
+                ...prevState,
+                table: false,
+                table: true 
+            }))
           })
           .catch(err => {
             console.log(err);
           });
       };
-    const  handleAddFamilyInfo = () => {
+    const  handleAddWorkExperience = () => {
         console.log("clicked1");
+        this.setState({ table: false });
         setValues((prevState)=>({
             ...prevState,
             table: false
         }))
       };
-    const  handleEditFamilyInfo = e => {
+    const  handleEditWorkExperience = e => {
         console.log(e);
         console.log("clicked6");
-         setValues((prevState)=>({
+        setValues((prevState)=>({
             ...prevState,
             editForm: true,
             editData: e,
             editFormGender: e["Gender"] 
-
         }))
       };
-    const  handleFormClose = () => {
+     const handleFormClose = () => {
         console.log("clicked1");
-         setValues((prevState)=>({
+        this.setState({ table: true });
+        setValues((prevState)=>({
             ...prevState,
-            table: true
+            table: true 
         }))
       };
-     const handleEditFormClose = () => {
+    const  handleEditFormClose = () => {
         console.log("clicked5");
-         setValues((prevState)=>({
+        setValues((prevState)=>({
             ...prevState,
-            editForm: false
+            editForm: false 
         }))
       };
       // handleFormClose = () => {
       //   console.log("clicked1");
       //   this.setState({ table: true });
       // };
-     const handleFamilyInfoEditUpdate = (info, newInfo) => {
+     const handleWorkExperienceEditUpdate = (info, newInfo) => {
         newInfo.preventDefault();
         console.log("zero data", newInfo.target[0].value);
         let body = {
-          Name: newInfo.target[0].value,
-          Relationship: newInfo.target[1].value,
-          DOB: newInfo.target[2].value,
-          Occupation: newInfo.target[3].value,
+          CompanyName: newInfo.target[0].value,
+          Designation: newInfo.target[1].value,
+          FromDate: newInfo.target[2].value,
+          ToDate: newInfo.target[3].value,
         };
         console.log("update", body);
         axios
           .put(
-            "http://localhost:5000/api/update-family-info/" + info["_id"],
+            "http://localhost:5000/api/update-work-experience/" + info["_id"],
             body, {
             headers: {
               authorization: localStorage.getItem("token") || ""
@@ -98,11 +98,11 @@ const FamilyInfo = ({data,back}) => {
           }
           )
           .then(res => {
-             setValues((prevState)=>({
-            ...prevState,
-            table: false,
-            table: true
-        }))
+            setValues((prevState)=>({
+                ...prevState,
+                table: false,
+                table: true 
+            }))
           })
           .catch(err => {
             console.log(err);
@@ -116,30 +116,35 @@ const FamilyInfo = ({data,back}) => {
     
   return (
     <>
-      {values.table ? (
+        {/* <h1>iiiiiiiiiinnnnnnnnnnnnnn{
+          JSON.stringify(this.props.data)}</h1> */}
+
+{values.table ? (
           values.editForm ? (
-            <FamilyInfoFormEdit
-              onFamilyInfoEditUpdate={handleFamilyInfoEditUpdate}
+            <WorkExperienceFormEdit
+              onWorkExperienceEditUpdate={handleWorkExperienceEditUpdate}
               onFormEditClose={handleEditFormClose}
               editData={values.editData}
+
             />
           ) : (
-              <FamilyInfoTable
-                onAddFamilyInfo={handleAddFamilyInfo}
-                onEditFamilyInfo={handleEditFamilyInfo}
+              <WorkExperienceTable
+                onAddWorkExperience={handleAddWorkExperience}
+                onEditWorkExperience={handleEditWorkExperience}
                 data={data}
                 back={back}
               />
             )
         ) : (
-            <FamilyInfoForm
-              onFamilyInfoSubmit={handleFamilyInfoSubmit}
+            <WorkExperienceForm
+              onWorkExperienceSubmit={handleWorkExperienceSubmit}
               onFormClose={handleFormClose}
               onGenderChange={handleAddFormGenderChange}
             />
           )}
+      
     </>
   )
 }
 
-export default FamilyInfo
+export default WorkExperience

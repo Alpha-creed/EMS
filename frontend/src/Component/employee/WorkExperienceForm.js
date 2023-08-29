@@ -1,43 +1,42 @@
 import React from 'react'
 
-const FamilyInfoForm = ({onFormClose,onFamilyInfoSubmit}) => {
+const WorkExperienceForm = ({onFormClose,onWorkExperienceSubmit}) => {
   return (
     <div>
-         
-         <h2 id="role-form-title">Add FamilyInfo Details</h2>
- <div id="role-form-outer-div"><Form id="form" onSubmit={onFamilyInfoSubmit}>
+         <h2 id="role-form-title">Add WorkExperience Details</h2>
+ <div id="role-form-outer-div"><Form id="form" onSubmit={onWorkExperienceSubmit}>
   
 
   <Form.Group as={Row}>
     <Form.Label column sm={2}>
-    Name
+    Company Name
     </Form.Label>
     <Col sm={10}  className="form-input">
-      <Form.Control type="Text" placeholder="Name" required/>
+      <Form.Control type="Text" placeholder="CompanyName" required/>
     </Col>
   </Form.Group>
   <Form.Group as={Row}>
     <Form.Label column sm={2}>
-    Relationship
+    Designation
     </Form.Label>
     <Col sm={10}  className="form-input">
-      <Form.Control type="Text" placeholder="Relationship" required/>
+      <Form.Control type="Text" placeholder="Designation" required/>
     </Col>
   </Form.Group>
   <Form.Group as={Row}>
     <Form.Label column sm={2}>
-    DOB 
+    FromDate
     </Form.Label>
     <Col sm={10}  className="form-input">
-      <Form.Control type="date"   required/>
+      <Form.Control type="date" required/>
     </Col>
   </Form.Group>
   <Form.Group as={Row}>
     <Form.Label column sm={2}>
-    Occupation
+    ToDate
     </Form.Label>
     <Col sm={10}  className="form-input">
-      <Form.Control type="Text" placeholder="Occupation" required/>
+      <Form.Control type="date" placeholder="ToDate" required/>
     </Col>
   </Form.Group>
  
@@ -59,4 +58,4 @@ const FamilyInfoForm = ({onFormClose,onFamilyInfoSubmit}) => {
   )
 }
 
-export default FamilyInfoForm
+export default WorkExperienceForm
